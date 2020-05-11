@@ -1,0 +1,16 @@
+create table users(
+    -> user_id int primary key auto_increment,
+    -> name varchar(20),
+    -> email varchar(20),
+    -> phone varchar(20),
+    -> add1 varchar(20),
+    -> add2 varchar(20),
+    -> lanmark varchar(20),
+    -> city varchar(20),
+    -> pincode varchar(7),
+    -> token_id varchar(255),
+    -> pass_code varchar(20),
+    -> time_stamp TIMESTAMP,
+    -> cart_vendor varchar(20),
+    -> is_prime bit(1)
+    -> );
