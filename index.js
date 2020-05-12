@@ -8,9 +8,9 @@ app.use(bodyParser.json());
  
 //create database connection
 const conn = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
+  host: 'database-1.cgcmy4infmjo.ap-south-1.rds.amazonaws.com',
+  user: 'admin',
+  password: 'ayushdb123',
   database: 'kitchenmart'
 });
  
