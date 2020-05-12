@@ -66,7 +66,7 @@ app.post('/api/users',(req, res) => {
 
   //Delete user
 app.delete('/api/users/:id',(req, res) => {
-    let sql = "DELETE FROM users WHERE usert_id="+req.params.id+"";
+    let sql = "DELETE FROM users WHERE user_id="+req.params.id+"";
     let query = conn.query(sql, (err, results) => {
       if(err) throw err;
         res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
@@ -90,9 +90,10 @@ app.delete('/api/users/:id',(req, res) => {
       res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
     });
   });
-   //set address
+   
+  //set address
   
-app.put('/api/products/:id',(req, res) => {
+app.put('/api/users/address/:id',(req, res) => {
   let sql = 
   "UPDATE user SET add1='"+req.body.add1+"', add2='"+req.body.add2+"' ,lanmark='"+req.body.lanmark+"' city='"+req.body.city+"'pincode='"+req.body.pincode+"' WHERE product_id="+req.params.id;
   let query = conn.query(sql, (err, results) => {
@@ -102,7 +103,127 @@ app.put('/api/products/:id',(req, res) => {
 });
 
   //update user => create this api by copying set address one
+
+
+
+ //get products
+  app.get('/api/product',(req, res) => {
+    let sql = "SELECT * FROM product";
+    let query = conn.query(sql, (err, results) => {
+      if(err) throw err;
+      res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  });
+
+ //get products
+ app.get('/api/product/:id',(req, res) => {
+  let sql = "SELECT * FROM product where id =" + req.params.id;
+  let query = conn.query(sql, (err, results) => {
+    if(err) throw err;
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+  //get products by vend
+  app.get('/api/product/getV/:vendor_name',(req, res) => {
+    name = req.params.vendor_name;
+
+    let sql = "SELECT * FROM product where vendor_name = ? ";
+    let query = conn.query(sql, name,(err, results) => {
+      if(err) throw err;
+      res.send(
+
+        JSON.stringify({"status": 200, "error": null, "response": results}));
+    });
+  });
   
+  
+  //get products by catg
+  app.get('/api/product/getC/:catg',(req, res) => {
+    name = req.params.catg;
+    console.log(name);
+   
+    let sql = "SELECT * FROM product where category = ?";
+    console.log(sql);
+    let query = conn.query(sql, name,(err, results) => {
+      if(err) throw err;
+      console.log(results);
+      res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+      
+    });
+  });
+
+    //Delete product
+app.delete('/api/product/:id',(req, res) => {
+  let sql = "DELETE FROM product WHERE id="+req.params.id+"";
+  let query = conn.query(sql, (err, results) => {
+    if(err) throw err;
+      res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+      
+  });
+});
+
+ //get products by brand
+ app.get('/api/product/getB/:brand',(req, res) => {
+   name = req.params.brand
+  let sql = "SELECT * FROM product where brand = ?";
+  let query = conn.query(sql, name, (err, results) => {
+    if(err) throw err;
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+//set is_unavailable
+
+app.put('/api/products/avail/:id',(req, res) => {
+  let sql = 
+  "UPDATE user SET isavail'"+req.body.add1+"' WHERE product_id="+req.params.id;
+  let query = conn.query(sql, (err, results) => {
+    if(err) throw err;
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+//get products by isavail
+//pass 1 for true
+// app.get('/api/product/avail/val',(req, res) => {
+//   let sql = "SELECT * FROM product where isavail=" +req.params.val;
+//   let query = conn.query(sql, (err, results) => {
+//     if(err) throw err;
+//     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+//   });
+// });
+// can be done in flutter show only whose isavail is 1
+
+//post prod
+app.post('/api/product',(req, res) => {
+  let data = {
+   
+    name  : req.body.name,
+    price : req.body.price,
+    size : req.body.size,
+    descp : req.body.descp,
+    vendor_name : req.body.vendor_name,
+    max_qty : req.body.max_qty,
+    isavail : req.body.isavail,
+    category : req.body.category,
+    brand : req.body.brand,
+    subcat : req.body.subcat,
+    img  : req.body.img
+  };
+  let sql = "INSERT INTO product SET ?";
+  let query = conn.query(sql, data,(err, results) => {
+    if(err) 
+    {
+        //print(err);
+        throw err;
+    }
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+
+
 //Server listening
 app.listen(3000,() =>{
     console.log('Server started on port 3000...');

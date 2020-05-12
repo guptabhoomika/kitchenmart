@@ -14,3 +14,19 @@ create table users(
     -> cart_vendor varchar(20),
     -> is_prime bit(1)
     -> );
+
+CREATE TABLE product
+(
+    id int primary KEY AUTO_INCREMENT,
+    name varchar(20),
+    price int,
+    size varchar(20),
+    descp varchar(100),
+    vendor_name varchar(20),
+    max_qty int,
+    isavail bit(1),
+    category varchar(20),
+    brand varchar(20),
+    subcat varchar(20),
+    img  varchar(255)
+    );
