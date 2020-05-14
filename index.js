@@ -95,7 +95,7 @@ app.delete('/api/users/:id',(req, res) => {
   
 app.put('/api/users/address/:id',(req, res) => {
   let sql = 
-  "UPDATE user SET add1='"+req.body.add1+"', add2='"+req.body.add2+"' ,lanmark='"+req.body.lanmark+"' city='"+req.body.city+"'pincode='"+req.body.pincode+"' WHERE product_id="+req.params.id;
+  "UPDATE users SET add1='"+req.body.add1+"', add2='"+req.body.add2+"' ,lanmark='"+req.body.lanmark+"' city='"+req.body.city+"'pincode='"+req.body.pincode+"' WHERE product_id="+req.params.id;
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
@@ -221,6 +221,135 @@ app.post('/api/product',(req, res) => {
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
   });
 });
+
+
+//get all orders
+app.get('/api/orders',(req, res) => {
+  let sql = "SELECT * FROM customer_orders";
+  let query = conn.query(sql, (err, results) => {
+    if(err) throw err;
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+//get order by cust id
+app.get('/api/orderscustomer/:id',(req, res) => {
+  let sql = "SELECT * FROM customer_orders where customer_id = " + req.params.id;
+  let query = conn.query(sql, (err, results) => {
+    if(err) throw err;
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+//get order by order id
+app.get('/api/orders/:id',(req, res) => {
+  let sql = "SELECT * FROM customer_orders where order_id = " + req.params.id;
+  let query = conn.query(sql, (err, results) => {
+    if(err) throw err;
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+//get customer name and address by order id
+
+app.get('/api/orderscustomername/:id',(req, res) => {
+  let sql = "SELECT users.name,users.add1,users.add2,users.lanmark,users.city,users.pincode FROM customer_orders JOIN users ON customer_orders.customer_id = users.user_id where order_id = " + req.params.id;
+  let query = conn.query(sql, (err, results) => {
+    if(err) throw err;
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+//add orders
+app.post('/api/orders',(req, res) => {
+  let data = {
+   
+    customer_id: req.body.customer_id ,
+    prod_id: req.body.prod_id,
+    total_items : req.body.total_items,
+    total_amt : req.body.total_amt,
+    delievery_charge : req.body.delievery_charge,
+    timeslot : req.body.timeslot,
+    mode_of_payment : req.body.mode_of_payment,
+    status_of_order : req.body.status_of_order,
+    time_of_order : req.body.time_of_order,
+    long_loc : req.body.long_loc,
+    lat_loc : req.body.long_loc,
+  };
+  let sql = "INSERT INTO customer_orders SET ?";
+  let query = conn.query(sql, data,(err, results) => {
+    if(err) 
+    {
+        //print(err);
+        throw err;
+    }
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+//set status
+app.put('/api/ordersstatus/:id',(req, res) => {
+  let sql = 
+  "UPDATE customer_orders SET status_of_order'"+req.body.status_of_order+"' WHERE order_id="+req.params.id;
+  let query = conn.query(sql, (err, results) => {
+    if(err) throw err;
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+//show all banners
+app.get('/api/bannners',(req, res) => {
+  let sql = "SELECT * FROM banner`";
+  let query = conn.query(sql, (err, results) => {
+    if(err) throw err;
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+//show banner by location
+ 
+ app.get('/api/bannnersloaction/:loc',(req, res) => {
+  name = req.params.log;
+  console.log(name);
+ 
+  let sql = "SELECT * FROM location where banner_location = ?";
+  console.log(sql);
+  let query = conn.query(sql, name,(err, results) => {
+    if(err) throw err;
+    console.log(results);
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    
+  });
+});
+
+//add banners
+app.post('/api/bannners',(req, res) => {
+  let data = {
+    banner_name : req.body.name,
+banner_url : req.body.banner_url,
+banner_type  : req.body.banner_type,
+banner_location  : req.body.banner_location,
+banner_desc : req.body.banner_desc,
+ banner_status : req.body.banner_status
+  };
+  let sql = "INSERT INTO banner SET ?";
+  let query = conn.query(sql, data,(err, results) => {
+    if(err) 
+    {
+        //print(err);
+        throw err;
+    }
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+//make update manner
+
+
+
+
+
+
 
 
 
