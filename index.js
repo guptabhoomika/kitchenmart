@@ -126,6 +126,16 @@ app.put('/api/users/address/:id',(req, res) => {
   });
 });
 
+
+// get vendor list
+app.get('/api/vendor/',(req, res) => {
+
+ let sql = "SELECT * FROM vendors";
+ let query = conn.query(sql, (err, results) => {
+   if(err) throw err;
+   res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+ });
+});
   //get products by vend
   app.get('/api/product/getV/:vendor_name',(req, res) => {
     name = req.params.vendor_name;
