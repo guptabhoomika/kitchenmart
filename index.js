@@ -11,7 +11,8 @@ const conn = mysql.createConnection({
   host: 'database-1.cgcmy4infmjo.ap-south-1.rds.amazonaws.com',
   user: 'admin',
   password: 'ayushdb123',
-  database: 'kitchenmart'
+  database: 'kitchenmart',
+  multipleStatements: true
 });
  
 //connect to database
@@ -28,6 +29,7 @@ app.get('/api/users',(req, res) => {
       res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
     });
   });
+
   //show single user
 app.get('/api/users/:id',(req, res) => {
     let sql = "SELECT * FROM users WHERE user_id="+req.params.id;
@@ -225,7 +227,7 @@ app.post('/api/product',(req, res) => {
 
 //get all orders
 app.get('/api/orders',(req, res) => {
-  let sql = "SELECT * FROM customer_orders";
+  let sql = "SELECT * FROM orders";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
@@ -233,17 +235,17 @@ app.get('/api/orders',(req, res) => {
 });
 
 //get order by cust id
-app.get('/api/orderscustomer/:id',(req, res) => {
-  let sql = "SELECT * FROM customer_orders where customer_id = " + req.params.id;
+app.get('/api/order/customer/:id',(req, res) => {
+  let sql = "SELECT * FROM orders where user_id = " + req.params.id;
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
   });
 });
 
-//get order by order id
-app.get('/api/orders/:id',(req, res) => {
-  let sql = "SELECT * FROM customer_orders where order_id = " + req.params.id;
+//get order basic by order id
+app.get('/api/order/id/:id',(req, res) => {
+  let sql = "SELECT * FROM orders where order_id = '" + req.params.id +"'";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
@@ -252,54 +254,54 @@ app.get('/api/orders/:id',(req, res) => {
 
 //get customer name and address by order id
 
-app.get('/api/orderscustomername/:id',(req, res) => {
-  let sql = "SELECT users.name,users.add1,users.add2,users.lanmark,users.city,users.pincode FROM customer_orders JOIN users ON customer_orders.customer_id = users.user_id where order_id = " + req.params.id;
-  let query = conn.query(sql, (err, results) => {
-    if(err) throw err;
-    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
-  });
-});
+// app.get('/api/orderscustomername/:id',(req, res) => {
+//   let sql = "SELECT users.name,users.add1,users.add2,users.lanmark,users.city,users.pincode FROM customer_orders JOIN users ON customer_orders.customer_id = users.user_id where order_id = " + req.params.id;
+//   let query = conn.query(sql, (err, results) => {
+//     if(err) throw err;
+//     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+//   });
+// });
 
 //add orders
-app.post('/api/orders',(req, res) => {
-  let data = {
+// app.post('/api/orders',(req, res) => {
+//   let data = {
    
-    customer_id: req.body.customer_id ,
-    prod_id: req.body.prod_id,
-    total_items : req.body.total_items,
-    total_amt : req.body.total_amt,
-    delievery_charge : req.body.delievery_charge,
-    timeslot : req.body.timeslot,
-    mode_of_payment : req.body.mode_of_payment,
-    status_of_order : req.body.status_of_order,
-    time_of_order : req.body.time_of_order,
-    long_loc : req.body.long_loc,
-    lat_loc : req.body.long_loc,
-  };
-  let sql = "INSERT INTO customer_orders SET ?";
-  let query = conn.query(sql, data,(err, results) => {
-    if(err) 
-    {
-        //print(err);
-        throw err;
-    }
-    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
-  });
-});
+//     customer_id: req.body.customer_id ,
+//     prod_id: req.body.prod_id,
+//     total_items : req.body.total_items,
+//     total_amt : req.body.total_amt,
+//     delievery_charge : req.body.delievery_charge,
+//     timeslot : req.body.timeslot,
+//     mode_of_payment : req.body.mode_of_payment,
+//     status_of_order : req.body.status_of_order,
+//     time_of_order : req.body.time_of_order,
+//     long_loc : req.body.long_loc,
+//     lat_loc : req.body.long_loc,
+//   };
+//   let sql = "INSERT INTO customer_orders SET ?";
+//   let query = conn.query(sql, data,(err, results) => {
+//     if(err) 
+//     {
+//         //print(err);
+//         throw err;
+//     }
+//     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+//   });
+// });
 
 //set status
-app.put('/api/ordersstatus/:id',(req, res) => {
-  let sql = 
-  "UPDATE customer_orders SET status_of_order'"+req.body.status_of_order+"' WHERE order_id="+req.params.id;
-  let query = conn.query(sql, (err, results) => {
-    if(err) throw err;
-    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
-  });
-});
+// app.put('/api/ordersstatus/:id',(req, res) => {
+//   let sql = 
+//   "UPDATE customer_orders SET status_of_order'"+req.body.status_of_order+"' WHERE order_id="+req.params.id;
+//   let query = conn.query(sql, (err, results) => {
+//     if(err) throw err;
+//     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+//   });
+// });
 
 //show all banners
 app.get('/api/bannners',(req, res) => {
-  let sql = "SELECT * FROM banner`";
+  let sql = "SELECT * FROM banner";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
@@ -343,7 +345,69 @@ banner_desc : req.body.banner_desc,
   });
 });
 
-//make update manner
+
+
+//add Cart Item
+app.post('/api/cart',(req, res) => {
+  let data = {
+    user_id : req.body.user_id,
+prod_id : req.body.prod_id,
+prod_qty  : req.body.prod_qty,
+
+  };
+  let sql = "INSERT INTO cart SET ?";
+  let query = conn.query(sql, data,(err, results) => {
+    if(err) 
+    {
+        //print(err);
+        throw err;
+    }
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+
+//show cart by user
+app.get('/api/cart/:id',(req, res) => {
+  id = req.params.id;
+
+ 
+  let sql = "SELECT * FROM cart join product on cart.prod_id = product.id where user_id = 3";
+  console.log(sql);
+  let query = conn.query(sql, id,(err, results) => {
+    if(err) throw err;
+    console.log(results);
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    
+  });
+});
+
+
+
+
+
+
+// Place order
+app.post('/api/placeorder',(req, res) => {
+  let data = {
+// order_id: req.body.order_id,
+// user_id: req.body.user_id
+  };
+
+
+  var addIntoOrdersql = "INSERT INTO orders ?  select CONCAT('"+  req.body.order_id +"' ,product.vendor_name),cart.user_id,SUM(cart.prod_quan * product.price), count(*),product.vendor_name,users.name from cart join users on users.user_id = cart.user_id join product on cart.prod_id = product.id  where cart.user_id = '"+req.body.user_id +"' group by vendor_name;"
+      addIntoOrdersql += "INSERT INTO order_item (order_id,price,user_id,prod_qty,prod_id) SELECT concat( '"+ req.body.order_id+"' ,product.vendor_name),product.price,user_id, prod_quan, prod_id FROM cart join product on cart.prod_id = product.id WHERE user_id = '"+ req.body.user_id +"' ;"
+
+
+  let query2 = conn.query(addIntoOrdersql, data,(err, results) => {
+    if(err) 
+    {
+        console.log(err);
+        throw err;
+    }
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
 
 
 
