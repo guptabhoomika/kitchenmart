@@ -352,7 +352,7 @@ app.post('/api/cart',(req, res) => {
   let data = {
     user_id : req.body.user_id,
 prod_id : req.body.prod_id,
-prod_qty  : req.body.prod_qty,
+prod_quan  : req.body.prod_qty,
 
   };
   let sql = "INSERT INTO cart SET ?";
