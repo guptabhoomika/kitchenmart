@@ -97,9 +97,12 @@ app.delete('/api/users/:id',(req, res) => {
   
 app.put('/api/users/address/:id',(req, res) => {
   let sql = 
-  "UPDATE users SET add1='"+req.body.add1+"', add2='"+req.body.add2+"' ,lanmark='"+req.body.lanmark+"' city='"+req.body.city+"'pincode='"+req.body.pincode+"' WHERE product_id="+req.params.id;
-  let query = conn.query(sql, (err, results) => {
+  "UPDATE users SET add1= ? , add2 = ? WHERE user_id=?";
+  let data = [req.body.add1, req.body.add2,req.params.id];
+  console.log(sql);
+  let query = conn.query(sql, data,(err, results,fields) => {
     if(err) throw err;
+    console.log('Rows affected:', results.affectedRows);
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
   });
 });
