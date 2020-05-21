@@ -313,7 +313,7 @@ app.get('/api/order/id/:id',(req, res) => {
 // });
 
 //show all banners
-app.get('/api/bannners',(req, res) => {
+app.get('/api/banners',(req, res) => {
   let sql = "SELECT * FROM banner";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
@@ -323,11 +323,11 @@ app.get('/api/bannners',(req, res) => {
 
 //show banner by location
  
- app.get('/api/bannnersloaction/:loc',(req, res) => {
+ app.get('/api/banner/:loc',(req, res) => {
   name = req.params.log;
   console.log(name);
  
-  let sql = "SELECT * FROM location where banner_location = ?";
+  let sql = "SELECT * FROM banner where banner_location = ?";
   console.log(sql);
   let query = conn.query(sql, name,(err, results) => {
     if(err) throw err;
