@@ -402,7 +402,20 @@ app.put('/api/cart/sub/:id',(req, res) => {
   });
 });
 
+//show cart total by user
+app.get('/api/cart/total/:id',(req, res) => {
+  id = req.params.id;
 
+ 
+  let sql =" select sum(prod_quan * product.price),count(prod_quan) from cart join product on cart.prod_id = product.id where user_id ="+ id +" group by user_id";
+  console.log(sql);
+  let query = conn.query(sql, id,(err, results) => {
+    if(err) throw err;
+    console.log(results);
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    
+  });
+});
 //show cart by user
 app.get('/api/cart/:id',(req, res) => {
   id = req.params.id;
