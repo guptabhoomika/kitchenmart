@@ -97,8 +97,8 @@ app.delete('/api/users/:id',(req, res) => {
   
 app.put('/api/users/address/:id',(req, res) => {
   let sql = 
-  "UPDATE users SET add1= ? , add2 = ? WHERE user_id=?";
-  let data = [req.body.add1, req.body.add2,req.params.id];
+  "UPDATE users SET add1= ? , add2 = ? , lanmark = ? , city = ? , pincode = ? WHERE user_id=?";
+  let data = [req.body.add1, req.body.add2,req.body.landmark,req.body.city,req.body.pincode,req.params.id];
   console.log(sql);
   let query = conn.query(sql, data,(err, results,fields) => {
     if(err) throw err;
@@ -374,6 +374,30 @@ prod_quan  : req.body.prod_qty,
         //print(err);
         throw err;
     }
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+
+
+//add a quantity value
+
+app.put('/api/cart/add/:id',(req, res) => {
+  let sql = 
+  "UPDATE cart SET prod_quan = prod_quan + 1 WHERE cart_id = '"+req.params.id+"'";
+  let query = conn.query(sql, (err, results) => {
+    if(err) throw err;
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+  });
+});
+
+//substract a quantity value
+
+app.put('/api/cart/sub/:id',(req, res) => {
+  let sql = 
+  "UPDATE cart SET prod_quan = prod_quan - 1 WHERE cart_id ='"+req.params.id+"'";
+  let query = conn.query(sql, (err, results) => {
+    if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
   });
 });
