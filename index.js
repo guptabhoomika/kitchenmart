@@ -323,20 +323,19 @@ app.get('/api/banners',(req, res) => {
 
 //show banner by location
  
- app.get('/api/banner/:loc',(req, res) => {
-  name = req.params.loc;
-  console.log(name);
+app.get('/api/banner/:loc',(req, res) => {
+  // name = req.params.loc;
+  // console.log(name);
  
-  let sql = "SELECT * FROM banner where banner_location = ?";
+  let sql = "SELECT * FROM banner where banner_location = '" + req.params.loc + "'";
   console.log(sql);
-  let query = conn.query(sql, name,(err, results) => {
+  let query = conn.query(sql,(err, results) => {
     if(err) throw err;
     console.log(results);
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
     
   });
 });
-
 //add banners
 app.post('/api/bannners',(req, res) => {
   let data = {
