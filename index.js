@@ -324,7 +324,7 @@ app.get('/api/banners',(req, res) => {
 //show banner by location
  
  app.get('/api/banner/:loc',(req, res) => {
-  name = req.params.log;
+  name = req.params.loc;
   console.log(name);
  
   let sql = "SELECT * FROM banner where banner_location = ?";
