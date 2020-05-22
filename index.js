@@ -431,7 +431,19 @@ app.get('/api/cart/:id',(req, res) => {
   });
 });
 
+// show cart summary
+app.get('/api/cart/summary/:id',(req, res) => {
+  id = req.params.id;
 
+  let sql = "select count(*),sum(product.price*cart.prod_quan),vendors.vendor_name,vendors.imageLink from cart join product on cart.prod_id = product.id join vendors on product.vendor_name = vendors.tag where user_id = '"+ id + "' group by product.vendor_name";
+  console.log(sql);
+  let query = conn.query(sql, id,(err, results) => {
+    if(err) throw err;
+    console.log(results);
+    res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+    
+  });
+});
 
 
 
@@ -446,6 +458,8 @@ app.post('/api/placeorder',(req, res) => {
 
   var addIntoOrdersql = "INSERT INTO orders ?  select CONCAT('"+  req.body.order_id +"' ,product.vendor_name),cart.user_id,SUM(cart.prod_quan * product.price), count(*),product.vendor_name,users.name from cart join users on users.user_id = cart.user_id join product on cart.prod_id = product.id  where cart.user_id = '"+req.body.user_id +"' group by vendor_name;"
       addIntoOrdersql += "INSERT INTO order_item (order_id,price,user_id,prod_qty,prod_id) SELECT concat( '"+ req.body.order_id+"' ,product.vendor_name),product.price,user_id, prod_quan, prod_id FROM cart join product on cart.prod_id = product.id WHERE user_id = '"+ req.body.user_id +"' ;"
+   addIntoOrdersql += "delete from cart where user_id = ' " +req.body.user_id + "'";
+
 
 
   let query2 = conn.query(addIntoOrdersql, data,(err, results) => {
