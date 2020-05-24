@@ -154,7 +154,7 @@ app.delete('/api/users/:id', (req, res) => {
 
 app.get('/api/users/checkprime/:id', (req, res) => {
 
-  let sql = "SELECT is_prime FROM users WHERE user_id=" + req.params.id;
+  let sql = "SELECT is_prime FROM users WHERE auth_id=" + req.params.id;
 
   let query = conn.query(sql, (err, results) => {
 
@@ -172,7 +172,7 @@ app.get('/api/users/checkprime/:id', (req, res) => {
 
 app.get('/api/users/address/:id', (req, res) => {
 
-  let sql = "SELECT add1,add2,lanmark,city,pincode FROM users WHERE user_id=" + req.params.id;
+  let sql = "SELECT add1,add2,lanmark,city,pincode FROM users WHERE auth_id=" + req.params.id;
 
   let query = conn.query(sql, (err, results) => {
 
@@ -194,7 +194,7 @@ app.put('/api/users/address/:id', (req, res) => {
 
   let sql =
 
-    "UPDATE users SET add1= ? , add2 = ? , lanmark = ? , city = ? , pincode = ? WHERE user_id=?";
+    "UPDATE users SET add1= ? , add2 = ? , lanmark = ? , city = ? , pincode = ? WHERE auth_id=?";
 
   let data = [req.body.add1, req.body.add2, req.body.landmark, req.body.city, req.body.pincode, req.params.id];
 
