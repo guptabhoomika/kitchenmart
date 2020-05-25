@@ -82,37 +82,13 @@ app.get('/api/users/:id', (req, res) => {
 
 app.post('/api/users', (req, res) => {
 
-  let data = {
-
-    name: req.body.name,
-    auth_id = req.body.id,
-
-    email: req.body.email,
-
-    phone: req.body.phone,
-
-    add1: req.body.add1,
-
-    add2: req.body.add2,
-
-    lanmark: req.body.lanmark,
-
-    city: req.body.city,
-
-    pincode: req.body.pincode,
-
   
-
-
-
-    time_stamp: req.body.time_stamp,
-
 
    
 
-  };
 
-  let sql = "INSERT INTO users SET ?";
+
+  let sql = "INSERT INTO users(name,email,phone,auth_id) values(req.body.name,req.body.email,req.body.phone,req.body.auth_id)";
 
   let query = conn.query(sql, data, (err, results) => {
 
