@@ -66,7 +66,7 @@ app.get('/api/users', (req, res) => {
 
 app.get('/api/users/:id', (req, res) => {
 
-  let sql = "SELECT * FROM users WHERE user_id=" + req.params.id;
+  let sql = "SELECT * FROM users WHERE auth_id=" + req.params.id;
 
   let query = conn.query(sql, (err, results) => {
 
@@ -85,6 +85,7 @@ app.post('/api/users', (req, res) => {
   let data = {
 
     name: req.body.name,
+    auth_id = req.body.id,
 
     email: req.body.email,
 
@@ -100,15 +101,14 @@ app.post('/api/users', (req, res) => {
 
     pincode: req.body.pincode,
 
-    token_id: req.body.token_id,
+  
 
-    pass_code: req.body.pass_code,
+
 
     time_stamp: req.body.time_stamp,
 
-    cart_vendor: req.body.cart_vendor,
 
-    is_prime: req.body.is_prime,
+   
 
   };
 
