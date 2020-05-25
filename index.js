@@ -66,7 +66,7 @@ app.get('/api/users', (req, res) => {
 
 app.get('/api/users/:id', (req, res) => {
 
-  let sql = "SELECT * FROM users WHERE auth_id=" + req.params.id;
+  let sql = "SELECT * FROM users WHERE user_id=" + req.params.id;
 
   let query = conn.query(sql, (err, results) => {
 
@@ -77,6 +77,63 @@ app.get('/api/users/:id', (req, res) => {
   });
 
 });
+
+//   //add new user
+
+// app.post('/api/users',(req, res) => {
+
+//     let data = {
+
+//         name : req.body.name,
+
+//         email : req.body.email,                                                                                     
+
+//         phone  : req.body.phone,                                                                                    
+
+//         add1  : req.body.add1,                                                                                     
+
+//         add2   : req.body.add2,                                                                                    
+
+//         lanmark : req.body.lanmark,                                                                                   
+
+//         city    : req.body.city,                                                                                   
+
+//         pincode  : req.body.pincode,                                                                             
+
+//         token_id  : req.body.token_id,                                                                          
+
+//         pass_code  : req.body.pass_code,                                                                                
+
+//         time_stamp  : req.body.time_stamp,   
+
+//         cart_vendor  : req.body.cart_vendor,                                                                              
+
+//         is_prime : req.body.is_prime,
+
+//     };
+
+//     let sql = "INSERT INTO users SET ?";
+
+//     let query = conn.query(sql, data,(err, results) => {
+
+//       if(err) 
+
+//       {
+
+//           print(err);
+
+//           throw err;
+
+//       }
+
+//       res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
+
+//     });
+
+//   });
+
+
+
 //add new user
 
 
@@ -110,6 +167,17 @@ req.body.name
 
 
 
+});
+
+
+
+
+
+
+
+
+
+
 
 //Delete user
 
@@ -133,7 +201,7 @@ app.delete('/api/users/:id', (req, res) => {
 
 app.get('/api/users/checkprime/:id', (req, res) => {
 
-  let sql = "SELECT is_prime FROM users WHERE auth_id=" + req.params.id;
+  let sql = "SELECT is_prime FROM users WHERE user_id=" + req.params.id;
 
   let query = conn.query(sql, (err, results) => {
 
@@ -151,7 +219,7 @@ app.get('/api/users/checkprime/:id', (req, res) => {
 
 app.get('/api/users/address/:id', (req, res) => {
 
-  let sql = "SELECT add1,add2,lanmark,city,pincode FROM users WHERE auth_id=" + req.params.id;
+  let sql = "SELECT add1,add2,lanmark,city,pincode FROM users WHERE user_id=" + req.params.id;
 
   let query = conn.query(sql, (err, results) => {
 
@@ -173,7 +241,7 @@ app.put('/api/users/address/:id', (req, res) => {
 
   let sql =
 
-    "UPDATE users SET add1= ? , add2 = ? , lanmark = ? , city = ? , pincode = ? WHERE auth_id=?";
+    "UPDATE users SET add1= ? , add2 = ? , lanmark = ? , city = ? , pincode = ? WHERE user_id=?";
 
   let data = [req.body.add1, req.body.add2, req.body.landmark, req.body.city, req.body.pincode, req.params.id];
 
@@ -887,7 +955,7 @@ app.get('/api/cart/summary/:id', (req, res) => {
 
 
 
-// new Place order
+// Place order
 
 app.post('/api/placeorder', (req, res) => {
 
@@ -940,6 +1008,22 @@ app.post('/api/placeorder', (req, res) => {
   });
 
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
