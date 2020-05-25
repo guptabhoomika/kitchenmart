@@ -144,7 +144,7 @@ app.post('/api/users', (req, res) => {
 
 
   let sql = "INSERT INTO users(name,email,phone,auth_id,add1,add2,landmark,pincode) values( '"+ req.body.name +"','"+ req.body.email +"','"+ req.body.phone +"','"+ req.body.auth_id +"','','','','')";
-req.body.name
+
 
   let query = conn.query(sql, (err, results) => {
 
