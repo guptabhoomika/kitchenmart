@@ -77,34 +77,37 @@ app.get('/api/users/:id', (req, res) => {
   });
 
 });
-
 //add new user
+
+
 
 app.post('/api/users', (req, res) => {
 
-  
-
-   
 
 
 
-  let sql = "INSERT INTO users(name,email,phone,auth_id) values(req.body.name,req.body.email,req.body.phone,req.body.auth_id)";
+  let sql = "INSERT INTO users(name,email,phone,auth_id,add1,add2,landmark,pincode) values( '"+ req.body.name +"','"+ req.body.email +"','"+ req.body.phone +"','"+ req.body.auth_id +"','','','','')";
+req.body.name
 
   let query = conn.query(sql, (err, results) => {
 
+
     if (err) {
 
-      print(err);
+     
 
       throw err;
 
     }
 
+
+
     res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
 
   });
 
-});
 
 
 
