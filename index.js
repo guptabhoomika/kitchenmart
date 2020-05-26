@@ -1175,7 +1175,7 @@ let query = conn.query(sql, (err, results) => {
 app.get('/api/product/tag/:tag', (req, res) => {
 
 
-  let sql = "SELECT * FROM product  join vendors on product.vendor_tag = vendors.tag where tag = '" + req.params.tag + "'";
+  let sql = "SELECT * FROM product  join vendors on product.vendor_tag = vendors.tag where product.tag = '" + req.params.tag + "'";
 let query = conn.query(sql, (err, results) => {
 
  if (err) throw err;
