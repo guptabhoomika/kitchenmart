@@ -548,7 +548,7 @@ app.get('/api/product', (req, res) => {
 
 
 
-  let sql = "select * from product where stock_status >0";
+  let sql = "select * from product  join vendors on product.vendor_tag = vendors.tag where stock_status >0";
 
 
 
@@ -584,7 +584,7 @@ app.get('/api/product/:id', (req, res) => {
 
 
 
-  let sql = "SELECT * FROM product where product_id =" + req.params.id;
+  let sql = "SELECT * FROM product join vendors on product.vendor_tag = vendors.tag where product_id =" + req.params.id;
 
 
 
@@ -622,13 +622,7 @@ app.get('/api/product/:id', (req, res) => {
 
 app.get('/api/vendor/', (req, res) => {
 
-
-
-
-
-
-
-  let sql = "SELECT * FROM vendors";
+let sql = "SELECT * FROM vendors";
 
 
 
@@ -668,7 +662,7 @@ app.get('/api/product/getV/:vendor_name', (req, res) => {
 
 
 
-  let sql = "SELECT * FROM product where vendor_tag = ? And stock_status>0";
+  let sql = "SELECT * FROM product  join vendors on product.vendor_tag = vendors.tag where vendor_tag = ? And stock_status>0";
 
 
 
@@ -728,7 +722,7 @@ app.get('/api/product/getC/:catg', (req, res) => {
 
 
 
-  let sql = "SELECT * FROM product where category = ? And stock_status>0";
+  let sql = "SELECT * FROM product  join vendors on product.vendor_tag = vendors.tag where category = ? And stock_status>0";
 
 
 
@@ -820,7 +814,7 @@ app.get('/api/product/getB/:brand', (req, res) => {
 
 
 
-  let sql = "SELECT * FROM product where brand = ?  And stock_status>0";
+  let sql = "SELECT * FROM product  join vendors on product.vendor_tag = vendors.tag where brand = ?  And stock_status>0";
 
 
 
@@ -1146,6 +1140,48 @@ app.get('/api/order/id/:id', (req, res) => {
 
   });
 
+
+});
+
+
+
+
+
+
+
+//new get order items by order id
+
+
+
+app.get('/api/order/items/:id', (req, res) => {
+
+
+  let sql = "SELECT * FROM order_item where order_id = '" + req.params.id + "'";
+let query = conn.query(sql, (err, results) => {
+
+ if (err) throw err;
+ res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+  });
+
+
+});
+
+
+//new get product by tag
+
+
+
+app.get('/api/product/tag/:tag', (req, res) => {
+
+
+  let sql = "SELECT * FROM product  join vendors on product.vendor_tag = vendors.tag where tag = '" + req.params.tag + "'";
+let query = conn.query(sql, (err, results) => {
+
+ if (err) throw err;
+ res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+  });
 
 
 });
@@ -1582,12 +1618,6 @@ app.post('/api/cart/', (req, res) => {
 
     prod_quan: req.body.prod_qty,
 
-
-
-
-
-
-
   };
 
 
@@ -1610,8 +1640,6 @@ app.post('/api/cart/', (req, res) => {
 
       throw err;
 
-
-
     }
 
 
@@ -1628,23 +1656,7 @@ app.post('/api/cart/', (req, res) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 //new add a quantity value
-
-
-
-
 
 
 
@@ -1726,6 +1738,42 @@ app.put('/api/cart/sub/:id', (req, res) => {
 
 
 
+//Delete user
+
+
+
+app.delete('/api/cart/:id', (req, res) => {
+
+
+
+  let sql = "DELETE FROM cart WHERE cart_id =" + req.params.id + "";
+
+
+
+  let query = conn.query(sql, (err, results) => {
+
+
+
+    if (err) throw err;
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+
+  });
+
+
+
+});
+
+
+
+
+
+
+
 
 
 //new show cart total by user
@@ -1793,13 +1841,6 @@ app.get('/api/cart/:id', (req, res) => {
 
 
   id = req.params.id;
-
-
-
-
-
-
-
 
 
 
@@ -2017,43 +2058,6 @@ app.post('/api/placeorder', (req, res) => {
 
 
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //Server listening
