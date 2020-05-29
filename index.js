@@ -1796,7 +1796,7 @@ app.get('/api/cart/total/:id', (req, res) => {
 
 
 
-  let sql = "select sum(prod_quan * product.max_price) as max_sum,sum(prod_quan * product.sell_price) as pay_sum,count(prod_quan) as total_items from cart join product on cart.prod_id = product.product_id where user_id =" + id + " group by user_id";
+  let sql = "select sum(prod_quan * product.max_price) as max_sum,sum(prod_quan * product.sell_price) as pay_sum,count(prod_quan) as total_items from cart join product on cart.prod_id = product.product_id where cart.user_id = '" + id + "'  group by user_id";
 
 
 
