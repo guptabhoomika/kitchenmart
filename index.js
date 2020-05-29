@@ -1086,7 +1086,8 @@ app.get('/api/order/customer/:id', (req, res) => {
 
 
 
-  let sql = "SELECT * FROM orders where user_id = " + req.params.id;
+  let sql = "SELECT * FROM orders where user_id = '" + req.params.id + "'";
+
 
 
 
