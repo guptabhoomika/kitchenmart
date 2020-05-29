@@ -2017,13 +2017,14 @@ app.post('/api/placeorder', (req, res) => {
 
 
 
-  var addIntoOrdersql = "INSERT INTO orders(order_id,user_id,max_amount,total_amount,vendor_tag,customer_name,total_items,vendor_name,delivery_charge,timeslot,mode_of_payment,status_of_order,customer_comment, time_of_order, long_loc,lat_loc,add1,add2,landmark,pincode,mobile_number) select CONCAT(' " + req.body.order_id + " ' ,vendors.vendor_code),cart.user_id,SUM(cart.prod_quan * product.max_price) as max_price, SUM(cart.prod_quan * product.sell_price) as sell_price,product.vendor_tag,users.name ,count(*),vendors.vendor_name,' " + req.body.delivery + "  ','" + req.body.timeslot + " ','" + req.body.payment_mode + " ', 'ordered','" + req.body.user_comment + " ',current_timestamp,'" + req.body.lat + " ','" + req.body.long + " ', '" + req.body.add1 + " ','" + req.body.add2 + " ', '" + req.body.landmark + " ','" + req.body.pincode + " ','" + req.body.mobile_no + " ' from cart join users on users.auth_id = cart.user_id join product on cart.prod_id = product.product_id join  vendors on product.vendor_tag = vendors.tag  where cart.user_id = " + req.body.user_id + "  group by product.vendor_tag;"
+
+  var addIntoOrdersql = "INSERT INTO orders(order_id,user_id,max_amount,total_amount,vendor_tag,customer_name,total_items,vendor_name,delivery_charge,timeslot,mode_of_payment,status_of_order,customer_comment, time_of_order, long_loc,lat_loc,add1,add2,landmark,pincode,mobile_number) select '" + req.body.order_id + "',cart.user_id,SUM(cart.prod_quan * product.max_price) as max_price, SUM(cart.prod_quan * product.sell_price) as sell_price,product.vendor_tag,users.name ,count(*),vendors.vendor_name,' " + req.body.delivery + "  ','" + req.body.timeslot + " ','" + req.body.payment_mode + " ', 'ordered','" + req.body.user_comment + " ',current_timestamp,'" + req.body.lat + " ','" + req.body.long + " ', '" + req.body.add1 + " ','" + req.body.add2 + " ', '" + req.body.landmark + " ','" + req.body.pincode + " ','" + req.body.mobile_no + " ' from cart join users on users.auth_id = cart.user_id join product on cart.prod_id = product.product_id join  vendors on product.vendor_tag = vendors.tag  where cart.user_id = '" + req.body.user_id + "';"
 
 
 
-  addIntoOrdersql += "INSERT INTO order_item (order_id,prod_mrp,prod_price,user_id,prod_qty,prod_id,vendor_tag,prod_name,prod_img) SELECT concat( '   " + req.body.order_id + " ' ,vendors.vendor_code),product.max_price,product.sell_price,user_id, prod_quan, prod_id,product.vendor_tag,product.name,product.img FROM cart join product on cart.prod_id = product.product_id join vendors on product.vendor_tag = vendors.tag WHERE user_id = ' " + req.body.user_id + "';"
+  addIntoOrdersql += "INSERT INTO order_item (order_id,prod_max,prod_price,user_id,prod_qty,prod_id,vendor_tag,prod_name,prod_img) SELECT '" + req.body.order_id + "',product.max_price,product.sell_price,cart.user_id, cart.prod_quan, cart.prod_id,product.vendor_tag,product.name,product.img FROM cart join product on cart.prod_id = product.product_id join vendors on product.vendor_tag = vendors.tag WHERE cart.user_id = '" + req.body.user_id + "';"
 
-  addIntoOrdersql += "delete from cart where user_id = ' " + req.body.user_id + "';"
+ addIntoOrdersql += "delete from cart where user_id = '" + req.body.user_id + "';"
 
 
 
