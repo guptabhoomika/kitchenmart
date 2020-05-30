@@ -693,9 +693,31 @@ app.get('/api/product/getV/:vendor_name', (req, res) => {
 });
 
 
+// get notification by user
+
+app.get('/api/notification/:id', (req, res) => {
+
+
+console.log("notification api called");
+  let sql = "SELECT * FROM notification where user_id = '" + req.params.id + "'";
 
 
 
+  let query = conn.query(sql, (err, results) => {
+
+
+
+    if (err) throw err;
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+
+  });
+
+});
 
 
 
@@ -2026,6 +2048,10 @@ app.post('/api/placeorder', (req, res) => {
   addIntoOrdersql += "INSERT INTO order_item (order_id,prod_max,prod_price,user_id,prod_qty,prod_id,vendor_tag,prod_name,prod_img) SELECT '" + req.body.order_id + "',product.max_price,product.sell_price,cart.user_id, cart.prod_quan, cart.prod_id,product.vendor_tag,product.name,product.img FROM cart join product on cart.prod_id = product.product_id join vendors on product.vendor_tag = vendors.tag WHERE cart.user_id = '" + req.body.user_id + "';"
 
  addIntoOrdersql += "delete from cart where user_id = '" + req.body.user_id + "';"
+  
+  
+   addIntoOrdersql += "insert into notification(user_id,title,content,timestamp) value('" + req.body.user_id + "','New order Placed with order Id " + req.body.order_id + "','Thank you for ordering with KitchenKart','" + req.body.timestamp + "');"
+
 
 
 
