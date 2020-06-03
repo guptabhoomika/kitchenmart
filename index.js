@@ -440,7 +440,7 @@ app.get('/api/users/address/:id', (req, res) => {
 
 
 
-  let sql = "SELECT add1,add2,lanmark,city,pincode FROM users WHERE auth_id= '" + req.params.id + "';";
+  let sql = "SELECT add1,add2,lanmark,city,pincode,phone FROM users WHERE auth_id= '" + req.params.id + "';";
 
 
 
@@ -1433,6 +1433,42 @@ app.get('/api/banners/active', (req, res) => {
 
 });
 
+
+
+
+//set token
+
+
+app.put('/api/users/token/:id', (req, res) => {
+
+  let sql = "UPDATE users SET token_id = '"+  req.body.token  + "' WHERE auth_id= '"+ req.params.id+"'";
+
+
+  console.log(sql);
+
+
+
+  let query = conn.query(sql, (err, results, fields) => {
+
+console.log(err);
+
+    if (err) throw err;
+
+
+
+    console.log('Rows affected:', results.affectedRows);
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+
+  });
+
+
+
+});
 
 
 
