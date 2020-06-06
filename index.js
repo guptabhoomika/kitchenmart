@@ -533,7 +533,31 @@ app.put('/api/users/address/:id', (req, res) => {
 
 
 
+// new get brand list
 
+app.get('/api/brand/', (req, res) => {
+
+let sql = "SELECT * FROM brands";
+
+
+
+  let query = conn.query(sql, (err, results) => {
+
+
+
+    if (err) throw err;
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+
+  });
+
+
+
+});
 
 
 
