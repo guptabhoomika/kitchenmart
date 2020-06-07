@@ -1496,6 +1496,133 @@ console.log(err);
 
 
 
+//new get delivery charge
+
+
+
+app.get('/api/order/delivery/:amount', (req, res) => {
+
+
+
+  let sql = "SELECT * FROM delivery where price_tag = '" + req.params.amount + "'";
+
+
+
+  let query = conn.query(sql, (err, results) => {
+
+
+
+    if (err) throw err;
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+
+  });
+
+});
+
+
+
+
+
+// update feedback
+
+app.put('/api/orders/feedback/:id', (req, res) => {
+
+  let sql = "UPDATE orders SET feedback = '"+  req.body.feedback  + "' WHERE order_id= '"+ req.params.id+"'";
+
+
+  console.log(sql);
+
+
+  let query = conn.query(sql, (err, results, fields) => {
+
+console.log(err);
+
+    if (err) throw err;
+
+    console.log('Rows affected:', results.affectedRows);
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+
+  });
+
+
+
+});
+
+
+// update delivery status
+
+app.put('/api/orders/status/:id', (req, res) => {
+
+  let sql = "UPDATE orders SET status_of_order = '"+  req.body.status  + "' WHERE order_id= '"+ req.params.id+"'";
+
+
+  console.log(sql);
+
+
+  let query = conn.query(sql, (err, results, fields) => {
+
+console.log(err);
+
+    if (err) throw err;
+
+    console.log('Rows affected:', results.affectedRows);
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+
+  });
+
+
+
+});
+
+
+
+
+// update payment method
+
+app.put('/api/orders/payment/:id', (req, res) => {
+
+  let sql = "UPDATE orders SET mode_of_payment = '"+  req.body.method  + "' WHERE order_id= '"+ req.params.id+"'";
+
+
+  console.log(sql);
+
+
+  let query = conn.query(sql, (err, results, fields) => {
+
+console.log(err);
+
+    if (err) throw err;
+
+    console.log('Rows affected:', results.affectedRows);
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+
+  });
+
+
+
+});
+
+
 
 //new show all banners
 
