@@ -846,6 +846,50 @@ app.delete('/api/product/:id', (req, res) => {
 
 
 
+//show screen views
+
+app.get('/api/views/:tag', (req, res) => {
+
+  let sql = "SELECT * FROM screenlist WHERE screenname = '" + req.params.tag + "'";
+
+  let query = conn.query(sql, (err, results) => {
+
+    if (err) throw err;
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+  });
+
+});
+
+
+
+//show sub catg
+
+app.get('/api/product/view/:tag', (req, res) => {
+
+  let sql = "SELECT * FROM product join vendors on product.vendor_tag = vendors.tag where subcat = '"+ req.params.tag +"' And stock_status>0";
+
+  let query = conn.query(sql, (err, results) => {
+
+    if (err) throw err;
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+  });
+
+});
+
+
+
+
+
 
 
 //new get products by brand
