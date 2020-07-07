@@ -1572,6 +1572,39 @@ app.get('/api/order/delivery/:amount', (req, res) => {
 
 
 
+//new get promodetails
+
+
+app.get('/api/promocode/:code', (req, res) => {
+
+
+
+  let sql = "SELECT * FROM promocodes where promo_code = '" + req.params.code + "'";
+
+
+
+  let query = conn.query(sql, (err, results) => {
+
+
+
+    if (err) throw err;
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+
+  });
+
+});
+
+
+
+
+
+
+
 // update feedback
 
 app.put('/api/orders/feedback/:id', (req, res) => {
