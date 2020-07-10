@@ -1578,6 +1578,21 @@ app.get('/api/order/delivery/:amount', (req, res) => {
 
 
 app.post('/api/v2/placeorder', (req, res) => {
+  
+  
+  
+
+
+  let data = {
+
+
+
+
+
+
+  };
+
+
 
 
   var addIntoOrdersql = "INSERT INTO orders(order_id,user_id,max_amount,total_amount,vendor_tag,customer_name,total_items,vendor_name,delivery_charge,timeslot,mode_of_payment,status_of_order,customer_comment, time_of_order, long_loc,lat_loc,add1,add2,landmark,pincode,mobile_number,order_date,promocode,promoline) select '" + req.body.order_id + "',cart.user_id,SUM(cart.prod_quan * product.max_price) as max_price, SUM(cart.prod_quan * product.sell_price) as sell_price,product.vendor_tag,users.name ,count(*),vendors.vendor_name,' " + req.body.delivery + "  ','" + req.body.timeslot + " ','" + req.body.payment_mode + " ', 'ordered','" + req.body.user_comment + " ',current_timestamp,'" + req.body.lat + " ','" + req.body.long + " ', '" + req.body.add1 + " ','" + req.body.add2 + " ', '" + req.body.landmark + " ','" + req.body.pincode + " ','" + req.body.mobile_no + " ','" + req.body.order_date + " ','" + req.body.promocode +" ','" + req.body.promoline + "' from cart join users on users.auth_id = cart.user_id join product on cart.prod_id = product.product_id join  vendors on product.vendor_tag = vendors.tag  where cart.user_id = '" + req.body.user_id + "';"
@@ -1598,7 +1613,7 @@ app.post('/api/v2/placeorder', (req, res) => {
 
    addIntoOrdersql += "insert into notification(user_id,title,content,timestamp) value('" + req.body.user_id + "','New order Placed with order Id " + req.body.order_id + "','Thank you for ordering with KitchenKart','" + req.body.timestamp + "');"
 
-  let query2 = conn.query(addIntoOrdersql, (err, results) => {
+  let query2 = conn.query(addIntoOrdersql,data, (err, results) => {
 
 
     if (err) {
