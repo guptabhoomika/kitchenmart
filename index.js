@@ -1598,7 +1598,7 @@ app.post('/api/v2/placeorder', (req, res) => {
 
    addIntoOrdersql += "insert into notification(user_id,title,content,timestamp) value('" + req.body.user_id + "','New order Placed with order Id " + req.body.order_id + "','Thank you for ordering with KitchenKart','" + req.body.timestamp + "');"
 
-  let query2 = conn.query(addIntoOrdersql, data, (err, results) => {
+  let query2 = conn.query(addIntoOrdersql, (err, results) => {
 
 
     if (err) {
