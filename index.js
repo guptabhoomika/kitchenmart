@@ -2409,6 +2409,119 @@ app.post('/api/placeorder', (req, res) => {
 });
 
 
+
+
+// Place order 3
+
+
+
+app.post('/api/v3/placeorder', (req, res) => {
+
+
+
+  let data = {
+
+
+
+    // order_id: req.body.order_id,
+
+
+
+    // user_id: req.body.user_id
+
+
+
+  };
+
+
+
+  //  json body sample
+
+  // {
+
+  //   "order_id": "567567",
+
+  //   "user_id": 2,
+
+  //   "delivery": 10,
+
+  //   "timeslot": "1 day",
+
+  //   "payment_mode": "Cash",
+
+  //   "user_comment":"please deliver fast",
+
+  //   "lat": "20.30.40",
+
+  //   "long": "20.450.40",
+
+  //   "add1": "adress 11",
+
+  //   "add2": "addresss 2",
+
+  //   "landmark": "landmark here",
+
+  //   "pincode": "4232",
+
+  //   "mobile_no": "9424922610"
+
+
+
+
+
+  // }
+
+
+
+
+
+
+  var addIntoOrdersql = "INSERT INTO orders(order_id,user_id,max_amount,total_amount,vendor_tag,customer_name,total_items,vendor_name,delivery_charge,timeslot,mode_of_payment,status_of_order,customer_comment, time_of_order, long_loc,lat_loc,add1,add2,landmark,pincode,mobile_number,order_date) select '" + req.body.order_id + "',cart.user_id,SUM(cart.prod_quan * product.max_price) as max_price, SUM(cart.prod_quan * product.sell_price) as sell_price,product.vendor_tag,users.name ,count(*),vendors.vendor_name,' " + req.body.delivery + "  ','" + req.body.timeslot + " ','" + req.body.payment_mode + " ', 'ordered','" + req.body.user_comment + " ',current_timestamp,'" + req.body.lat + " ','" + req.body.long + " ', '" + req.body.add1 + " ','" + req.body.add2 + " ', '" + req.body.landmark + " ','" + req.body.pincode + " ','" + req.body.mobile_no + " ','" + req.body.order_date + "' from cart join users on users.auth_id = cart.user_id join product on cart.prod_id = product.product_id join  vendors on product.vendor_tag = vendors.tag  where cart.user_id = '" + req.body.user_id + "';"
+
+
+  addIntoOrdersql += "INSERT INTO order_item (order_id,prod_max,prod_price,user_id,prod_qty,prod_id,vendor_tag,prod_name,prod_img) SELECT '" + req.body.order_id + "',product.max_price,product.sell_price,cart.user_id, cart.prod_quan, cart.prod_id,product.vendor_tag,product.name,product.img FROM cart join product on cart.prod_id = product.product_id join vendors on product.vendor_tag = vendors.tag WHERE cart.user_id = '" + req.body.user_id + "';"
+
+ addIntoOrdersql += "delete from cart where user_id = '" + req.body.user_id + "';"
+  
+  
+   addIntoOrdersql += "insert into notification(user_id,title,content,timestamp) value('" + req.body.user_id + "','New order Placed with order Id " + req.body.order_id + "','Thank you for ordering with KitchenKart','" + req.body.timestamp + "');"
+
+
+
+
+
+
+  let query2 = conn.query(addIntoOrdersql, data, (err, results) => {
+
+
+
+    if (err) {
+
+
+
+      console.log(err);
+
+
+
+      throw err;
+
+
+
+    }
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+
+  });
+
+
+
+});
+
+
 //Server listening
 
 
