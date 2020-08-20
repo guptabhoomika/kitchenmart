@@ -15,6 +15,7 @@ const mysql = require('mysql');
 
 
 
+const axios = require('axios');
 
 
 
@@ -120,6 +121,109 @@ app.get('/api/users', (req, res) => {
 
 });
 
+
+
+//show sms order inform api
+
+
+
+app.get('/api/Informadmin/:orderid/:userid', (req, res) => {
+
+  let userdata = "SELECT * FROM users  where auth_id = '" + req.params.userid+ "'";
+  let orderdata = "SELECT * FROM orders where order_id = " + req.params.orderid;
+
+  let name = "";
+  let phone = "";
+  
+  let amount = "";
+  let items = "";
+
+  let userquery = conn.query(userdata, (err, userresult) => {
+
+     name = userresult[0]["name"];
+    phone = userresult[0]["phone"];
+
+    
+   let orderquery = conn.query(orderdata, (err, orderresult) => {
+    //  console.log(orderresult);
+amount = orderresult[0]["total_amount"];
+    if (err) throw err;
+
+
+    
+    console.log("code here");    
+  
+    console.log(name);
+    console.log(phone);
+    console.log(amount);
+
+
+
+    
+    let customerurl = 'http://www.bulksmsshortcode.com/sendsmsv2.asp?user=ayush1&password=ayush&sender=Internet&sendercdma=919860609000&text=Hello '+name+ ' ,Your order of Rs '+ amount+ ' is Successfully Placed. Your order will be delivered as early as possible. Your order id is '+ req.params.orderid+ '.\n\nThank you for placing order with Kitchenkart.\nFor any query Feel Free to Call 9893854119&PhoneNumber='+ phone +'&track=1';
+    let ayushurl = 'http://www.bulksmsshortcode.com/sendsmsv2.asp?user=ayush1&password=ayush&sender=Internet&sendercdma=919860609000&text=New order of amount Rs ' + amount +' is placed by '+ name+'. Phone number is ' + phone +'&PhoneNumber=9424922610&track=1';
+
+
+    axios.post(customerurl)
+    .then(function (response) {
+      // handle success
+      console.log("sucess");
+    
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+      
+      res.send(JSON.stringify({ "status": 200, "error": null, "response": "Failed" }));
+     
+    })
+    .finally(function () {
+      // always executed
+    
+    });
+  
+
+    axios.post(ayushurl)
+    .then(function (response) {
+      // handle success
+      console.log("sucess");
+      // console.log(response);
+      
+      // res.send(JSON.stringify({ "status": 200, "error": null, "response": "Done" }));
+     
+  
+  
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+      
+      res.send(JSON.stringify({ "status": 200, "error": null, "response": "Failed" }));
+     
+    })
+    .finally(function () {
+      // always executed
+    
+    });
+  
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": "Done" }));
+
+    })
+
+
+ 
+// sms code
+
+
+    if (err) throw err;
+
+  });
+
+
+
+  
+});
 
 
 
@@ -2397,6 +2501,25 @@ app.post('/api/placeorder', (req, res) => {
     }
 
 
+    axios.get('http://localhost:3000/api/informadmin/'+req.body.order_id+'/' + req.body.user_id)
+    .then(function (response) {
+      // handle success
+      console.log("sucess");
+    
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+      
+      res.send(JSON.stringify({ "status": 200, "error": null, "response": error.stringify }));
+     
+    })
+    .finally(function () {
+      // always executed
+    
+    });
+  
+
 
     res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
 
@@ -2509,6 +2632,25 @@ app.post('/api/promoorder', (req, res) => {
     }
 
 
+    axios.get('http://localhost:3000/api/informadmin/'+req.body.order_id+'/' + req.body.user_id)
+    .then(function (response) {
+      // handle success
+      console.log("sucess");
+    
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+      
+      res.send(JSON.stringify({ "status": 200, "error": null, "response": error.stringify }));
+     
+    })
+    .finally(function () {
+      // always executed
+    
+    });
+  
+
 
     res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
 
@@ -2527,6 +2669,7 @@ app.post('/api/promoorder', (req, res) => {
 // Place order 3
 
 app.post('/api/v3/placeorder', (req, res) => {
+
 
 
 
@@ -2619,6 +2762,30 @@ app.post('/api/v3/placeorder', (req, res) => {
 
 
     }
+
+
+    axios.get('http://localhost:3000/api/informadmin/'+req.body.order_id+'/' + req.body.user_id)
+    .then(function (response) {
+      // handle success
+      console.log("sucess");
+    
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+      
+      res.send(JSON.stringify({ "status": 200, "error": null, "response": error.stringify }));
+     
+    })
+    .finally(function () {
+      // always executed
+    
+    });
+  
+
+
+
+
 
 
 
