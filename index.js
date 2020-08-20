@@ -123,7 +123,7 @@ app.get('/api/users', (req, res) => {
 
 
 
-//show sms order inform api
+//show test api
 
 
 
@@ -1686,6 +1686,7 @@ app.post('/api/v2/placeorder', (req, res) => {
   
   
 
+  console.log("placeorder v2 called")
 
 
 
@@ -1723,6 +1724,25 @@ app.post('/api/v2/placeorder', (req, res) => {
     }
 
 
+    console.log("calling sms api")
+    axios.get('http://ec2-13-232-236-5.ap-south-1.compute.amazonaws.com:3000/api/informadmin/'+req.body.order_id+'/' + req.body.user_id)
+    .then(function (response) {
+      // handle success
+      console.log("sucess");
+    
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+      
+      res.send(JSON.stringify({ "status": 200, "error": null, "response": error.stringify }));
+     
+    })
+    .finally(function () {
+      // always executed
+    
+    });
+  
 
     res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
 
@@ -2409,6 +2429,7 @@ app.get('/api/cart/summary/:id', (req, res) => {
 app.post('/api/placeorder', (req, res) => {
 
 
+  console.log("placeorder api basic called")
 
   let data = {
 
@@ -2501,7 +2522,7 @@ app.post('/api/placeorder', (req, res) => {
     }
 
 
-    axios.get('http://localhost:3000/api/informadmin/'+req.body.order_id+'/' + req.body.user_id)
+    axios.get('http://ec2-13-232-236-5.ap-south-1.compute.amazonaws.com:3000/api/informadmin/'+req.body.order_id+'/' + req.body.user_id)
     .then(function (response) {
       // handle success
       console.log("sucess");
@@ -2632,7 +2653,7 @@ app.post('/api/promoorder', (req, res) => {
     }
 
 
-    axios.get('http://localhost:3000/api/informadmin/'+req.body.order_id+'/' + req.body.user_id)
+    axios.get('http://ec2-13-232-236-5.ap-south-1.compute.amazonaws.com:3000/api/informadmin/'+req.body.order_id+'/' + req.body.user_id)
     .then(function (response) {
       // handle success
       console.log("sucess");
@@ -2672,7 +2693,7 @@ app.post('/api/v3/placeorder', (req, res) => {
 
 
 
-
+console.log("placeorder v3 called")
   let data = {
 
 
@@ -2763,8 +2784,8 @@ app.post('/api/v3/placeorder', (req, res) => {
 
     }
 
-
-    axios.get('http://localhost:3000/api/informadmin/'+req.body.order_id+'/' + req.body.user_id)
+console.log("calling sms api")
+    axios.get('http://ec2-13-232-236-5.ap-south-1.compute.amazonaws.com:3000/api/informadmin/'+req.body.order_id+'/' + req.body.user_id)
     .then(function (response) {
       // handle success
       console.log("sucess");
