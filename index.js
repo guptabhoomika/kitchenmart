@@ -5,6 +5,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 
+const cors = require('cors');
 
 const app = express();
 
@@ -22,7 +23,7 @@ const axios = require('axios');
 // parse application/json
 
 
-
+app.use(cors());
 app.use(bodyParser.json());
 
 
