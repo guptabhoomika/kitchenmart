@@ -1369,7 +1369,8 @@ let query = conn.query(sql, (err, results) => {
 app.get('/api/product/tag/:tag', (req, res) => {
 
 
-  let sql = "SELECT * FROM product  join vendors on product.vendor_tag = vendors.tag where product.tag = '" + req.params.tag + "'";
+  let old = "SELECT * FROM product  join vendors on product.vendor_tag = vendors.tag where product.tag = '" + req.params.tag + "'";
+   let sql = "SELECT * FROM product  join vendors on product.vendor_tag = vendors.tag where (product.tag ='" + req.params.tag + "') or (product.tag1 = '" + req.params.tag + "') or (product.tag2 = '" + req.params.tag + "')";
 let query = conn.query(sql, (err, results) => {
 
  if (err) throw err;
