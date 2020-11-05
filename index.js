@@ -702,6 +702,37 @@ app.get('/api/product', (req, res) => {
 
 
 
+// Slug Api
+app.get('/api/product/slug/:slug', (req, res) => {
+
+
+
+  let sql = "SELECT * FROM product join vendors on product.vendor_tag = vendors.tag where product_slug = '" + req.params.slug + "'";
+
+
+
+  let query = conn.query(sql, (err, results) => {
+
+
+
+    if (err) throw err;
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+
+  });
+
+
+
+});
+
+
+
+
+
 
 //new get specific products
 
