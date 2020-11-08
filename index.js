@@ -227,6 +227,59 @@ amount = orderresult[0]["total_amount"];
 
 
 
+// newsletter api
+
+
+app.post('/api/newsletter/', (req, res) => {
+
+
+
+  let data = {
+
+
+
+name:req.body.name,
+phone:req.body.phone
+
+    
+
+  };
+
+
+
+  let sql = "INSERT INTO newsletter SET ?";
+
+
+
+  let query = conn.query(sql, data, (err, results) => {
+
+
+
+    if (err) {
+
+
+
+      //print(err);
+
+
+
+      throw err;
+
+    }
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+
+  });
+
+
+
+});
+
+
 
 
 //show single user
