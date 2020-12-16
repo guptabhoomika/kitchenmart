@@ -281,6 +281,35 @@ phone:req.body.phone
 
 
 
+// new get festive tile list
+
+app.get('/api/festive/', (req, res) => {
+
+let sql = "SELECT * FROM festiveSlider";
+
+
+
+  let query = conn.query(sql, (err, results) => {
+
+
+
+    if (err) throw err;
+
+
+
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+
+
+  });
+
+
+
+});
+
+
+
+
 
 //show single user
 
