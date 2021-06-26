@@ -1356,7 +1356,7 @@ app.get('/api/orders', (req, res) => {
 
 
 
-  let sql = "SELECT * FROM orders";
+  let sql = "SELECT * FROM orders limit 500 offset 1000";
 
 
 
