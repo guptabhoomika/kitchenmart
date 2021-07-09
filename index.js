@@ -779,6 +779,22 @@ app.get('/api/product', (req, res) => {
 
 });
 
+// update Product
+
+app.put('/api/product/update/:id', (req, res) => {
+
+  let sql = "UPDATE product SET name = '"+  req.body.name  + "', max_price = '" + req.body.max_price + "' , sell_price ='" + req.body.sell_price + "', size = '" + req.body.size + "' WHERE product_id= '" + req.params.id+"'";
+  console.log(sql);
+  let query = conn.query(sql, (err, results, fields) => {
+console.log(err);
+    if (err) throw err;
+    console.log('Rows affected:', results.affectedRows);
+    res.send(JSON.stringify({ "status": 200, "error": null, "response": results }));
+
+  });
+
+});
+
 
 
 
