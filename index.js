@@ -38,7 +38,7 @@ const conn = mysql.createConnection({
 
 
 
-  host: 'database-1.cgcmy4infmjo.ap-south-1.rds.amazonaws.com',
+  host: 'kitchenkart-db.cgcmy4infmjo.ap-south-1.rds.amazonaws.com',
 
 
 
@@ -50,7 +50,7 @@ const conn = mysql.createConnection({
 
 
 
-  database: 'kitchenmart',
+  database: 'kitchenkart-db',
 
 
 
