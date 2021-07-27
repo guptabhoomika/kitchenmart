@@ -50,7 +50,7 @@ const conn = mysql.createConnection({
 
 
 
-  database: 'kitchenkart-db',
+//   database: 'kitchenkart-db',
 
 
 
