@@ -33,12 +33,11 @@ app.use(bodyParser.json());
 //create database connection
 
 
-
 const conn = mysql.createConnection({
 
 
 
-  host: 'kitchenkartdb.cgcmy4infmjo.ap-south-1.rds.amazonaws.com',
+  host: 'db-kitchenkart-new.cgcmy4infmjo.ap-south-1.rds.amazonaws.com',
 
 
 
@@ -46,7 +45,7 @@ const conn = mysql.createConnection({
 
 
 
-  password: 'ayushdb123',
+  password: 'ayushdb321',
 
 
 
@@ -59,7 +58,6 @@ const conn = mysql.createConnection({
 
 
 });
-
 
 
 
